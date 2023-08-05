@@ -2,7 +2,6 @@
 import argparse
 import os
 import textract
-
 from PIL import Image
 import pytesseract
 import cv2
@@ -97,19 +96,8 @@ def hate_speech_detection():
         # Read the uploaded image
         image = Image.open(uploaded_image)
         st.image(image, caption='Uploaded Image.', use_column_width=True)
-
         # Convert PIL image to OpenCV image
-        image_cv = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-
-        # Choose preprocessor
-        # pre_processor = st.selectbox("Select Preprocessor", ["thresh", "blur"])
-
-        
-        # gray = cv2.threshold(
-        # image_cv, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
-        # elif pre_processor == "blur":
-        gray = cv2.medianBlur(image_cv, 3)
-
+        gray = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
         # Perform text detection
         filename = "{}.jpg".format(os.getpid())
         cv2.imwrite(filename, gray)
@@ -118,12 +106,7 @@ def hate_speech_detection():
             filename))
         print("length"+str(len(tex)))
         print(tex)
-        # text = textract.process(
-        #     "K:/hate_killer/faker/9240.jpg", method='tesseract')
 
-
-# Decode the text (textract returns bytes, so we need to decode it)
-        # tex = text.decode('utf-8')
         os.remove(filename)
 
         # Display detected text
@@ -170,7 +153,5 @@ def hate_speech_detection():
 hate_speech_detection()
 
 
-# We import the necessary packages
-#import the needed packages
 
 
