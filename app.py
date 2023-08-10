@@ -97,10 +97,10 @@ def hate_speech_detection():
         image = Image.open(uploaded_image)
         st.image(image, caption='Uploaded Image.', use_column_width=True)
         # Convert PIL image to OpenCV image
-        gray = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+        # gray = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
         # Perform text detection
         filename = "{}.jpg".format(os.getpid())
-        cv2.imwrite(filename, gray)
+        cv2.imwrite(filename, np.array(image))
         pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
         tex = pytesseract.image_to_string(Image.open(
             filename))
@@ -132,7 +132,7 @@ def hate_speech_detection():
             
             data = cv.transform([tex]).toarray()
             a = clf.predict(data)
-            st.title(a)
+            st.title(a[0])
         else:
             st.title("No text present in the tweet")
         # Convert the text to a vector
